@@ -1,4 +1,2 @@
 movies/
-cosine.pkl
-indices.pkl
-recommend.pkl
+*.pkl
