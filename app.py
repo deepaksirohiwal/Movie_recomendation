@@ -12,7 +12,7 @@ def fetch_info(movie_id):
      
      return images,desc,name
 
-cosine_sim=pickle.load(open('pickle\cosine.pkl','rb'))
+cosine_sim=pickle.load(open('pickle/cosine.pkl','rb'))
 #recommendation function 
 def get_recommendations(title,cosine_sim=cosine_sim):
 
@@ -39,10 +39,10 @@ def get_recommendations(title,cosine_sim=cosine_sim):
 
 
 #importing movie details
-movie_list_df= pickle.load(open('pickle\movie_name.pkl','rb'))
+movie_list_df= pickle.load(open('pickle/movie_name.pkl','rb'))
 movie_list=movie_list_df['title_x'].values
 #index of the movie
-indices=pickle.load(open('pickle\indices.pkl','rb'))
+indices=pickle.load(open('pickle/indices.pkl','rb'))
 
 #streamlit UI
 st.title('Movie Recommender System')
