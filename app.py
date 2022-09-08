@@ -52,6 +52,8 @@ selected_movie = st.selectbox(
      'Type movie/select movie name',
      movie_list)
 
+with open('style.css') as f:
+     st.markdown(f'<style>{f.read()}</style>',unsafe_allow_html=True)
 
 if st.button('Recommend me !'):
      list_of_rec=get_recommendations(selected_movie)
