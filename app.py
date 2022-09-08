@@ -1,8 +1,18 @@
 import streamlit as st
 import pickle
+import requests
+from PIL import Image
 
+def fetch_info(movie_id):
+     response=requests.get('https://api.themoviedb.org/3/movie/{}?api_key=ca81ad677ec863a95b58ce30413e5641'.format(movie_id))
+     data=response.json()
+     images="https://image.tmdb.org/t/p/w500"+data['poster_path']
+     desc=data['overview']
+     name=data['original_title']
+     
+     return images,desc,name
 
-cosine_sim=pickle.load(open('cosine.pkl','rb'))
+cosine_sim=pickle.load(open('pickle\cosine.pkl','rb'))
 #recommendation function 
 def get_recommendations(title,cosine_sim=cosine_sim):
 
@@ -17,25 +27,22 @@ def get_recommendations(title,cosine_sim=cosine_sim):
     sim_scores=sim_scores[1:11]
 
     movie_indices=[i[0] for i in sim_scores]    
-
+    movie_name=movie_list_df['title_x'].iloc[movie_indices]
+    movie_id=movie_list_df['id'].iloc[movie_indices]
     #return top 10 movies
-    return movie_list_df['title_x'].iloc[movie_indices]
+    movie_poster=[fetch_info(id) for id in movie_id]
+    return movie_poster
     
 #fecting movies poster and discription
-'''
-a. fetch the poster and display
-b. fetch the movie discription
-addition details 
-In which platform is it available
-'''
+
 
 
 
 #importing movie details
-movie_list_df= pickle.load(open('movie_name.pkl','rb'))
+movie_list_df= pickle.load(open('pickle\movie_name.pkl','rb'))
 movie_list=movie_list_df['title_x'].values
 #index of the movie
-indices=pickle.load(open('indices.pkl','rb'))
+indices=pickle.load(open('pickle\indices.pkl','rb'))
 
 #streamlit UI
 st.title('Movie Recommender System')
@@ -47,6 +54,17 @@ selected_movie = st.selectbox(
 
 
 if st.button('Recommend me !'):
-     st.write(get_recommendations(selected_movie))
+     list_of_rec=get_recommendations(selected_movie)
+    
+     for i in list_of_rec:
+          
+          
+          col1,col2=st.columns(2)
+          with col1:
+               st.image(i[0],width=100)
+               st.write(i[2])
+          with col2:
+               st.write(i[1])
+               #st.write(desc[i])
 
-
+              
