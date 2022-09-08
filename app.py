@@ -63,7 +63,7 @@ if st.button('Recommend me !'):
           
           col1,col2=st.columns(2)
           with col1:
-               st.image(i[0],width=100)
+               st.image(i[0],width=150)
                st.write(i[2])
           with col2:
                st.write(i[1])
