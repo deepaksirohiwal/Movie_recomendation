@@ -2,9 +2,10 @@ import streamlit as st
 import pickle
 import requests
 from PIL import Image
+import config
 
 def fetch_info(movie_id):
-     response=requests.get('https://api.themoviedb.org/3/movie/{}?api_key=ca81ad677ec863a95b58ce30413e5641'.format(movie_id))
+     response=requests.get('https://api.themoviedb.org/3/movie/{}?api_key={}'.format(movie_id,config.api_key))
      data=response.json()
      images="https://image.tmdb.org/t/p/w500"+data['poster_path']
      desc=data['overview']
